@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 import sys
 import random
 
@@ -10,6 +10,7 @@ class Quiz:
         self.score = 0
         self.correct_count = 0
         self.total_points = 0
+        self.completion_time = 0
 
     def print_header(self):
         print("\n\n*******************************************")
@@ -22,7 +23,8 @@ class Quiz:
     def print_results(self, quiztaker, thefile = sys.stdout):
         print("*******************************************", file=thefile, flush=True)
         print(f"Results for {quiztaker}", file=thefile, flush=True)
-        print(f"Date: {datetime.today()}", file=thefile, flush=True)
+        print(f"Date: {datetime.datetime.today()}", file=thefile, flush=True)
+        print(f"Elapsed Time: {self.completion_time}", file=thefile, flush=True)
         print(f"Questions: {self.correct_count} out of {len(self.questions)}", file=thefile, flush=True)
         print(f"Score: {self.score} points out of possible {self.total_points}", file=thefile, flush=True)
         print("*******************************************\n", file=thefile, flush=True)
@@ -30,12 +32,17 @@ class Quiz:
     def take_quiz(self):
         self.score = 0
         self.correct_count = 0
+        
+        self.completion_time = 0
+
         for q in self.questions:
             q.is_correct = False
 
         self.print_header()
 
         random.shuffle(self.questions)
+
+        starttime = datetime.datetime.now()
         
         for q in self.questions:
             q.ask()
@@ -44,6 +51,10 @@ class Quiz:
                 self.score += q.points
 
         print("--------------------------------------\n")
+
+        endtime = datetime.datetime.now()
+        self.completion_time = endtime - starttime
+        self.completion_time = datetime.timedelta(seconds=round(self.completion_time.total_seconds()))
 
         return(self.score, self.correct_count, self.total_points)
 
