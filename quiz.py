@@ -1,5 +1,6 @@
 from datetime import datetime
 import sys
+import random
 
 class Quiz:
     def __init__(self):
@@ -33,6 +34,8 @@ class Quiz:
             q.is_correct = False
 
         self.print_header()
+
+        random.shuffle(self.questions)
         
         for q in self.questions:
             q.ask()
