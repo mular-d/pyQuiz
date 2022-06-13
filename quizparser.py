@@ -80,12 +80,3 @@ class QuizParser(xml.sax.ContentHandler):
         elif self._parse_state == QuizParserState.PARSE_ANSWER:
             self._current_answer.text += chars
         
-if __name__ == "__main__":
-    app = QuizParser()
-    qz = app.parse_quiz("Quizzes/SampleQuiz.xml")
-    print(qz.name)
-    print(qz.description)
-    print(len(qz.questions))
-    print(qz.total_points)
-    for q in qz.questions:
-        print(q.text)

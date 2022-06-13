@@ -1,3 +1,6 @@
+from datetime import datetime
+import sys
+
 class Quiz:
     def __init__(self):
         self.name = ""
@@ -15,10 +18,13 @@ class Quiz:
         print(f"TOTAL POINTS: {self.total_points}")
         print("*******************************************\n")
 
-    def print_results(self):
-        print("*******************************************")
-        
-        print("*******************************************\n")
+    def print_results(self, quiztaker, thefile = sys.stdout):
+        print("*******************************************", file=thefile, flush=True)
+        print(f"Results for {quiztaker}", file=thefile, flush=True)
+        print(f"Date: {datetime.today()}", file=thefile, flush=True)
+        print(f"Questions: {self.correct_count} out of {len(self.questions)}", file=thefile, flush=True)
+        print(f"Score: {self.score} points out of possible {self.total_points}", file=thefile, flush=True)
+        print("*******************************************\n", file=thefile, flush=True)
 
     def take_quiz(self):
         self.score = 0
@@ -99,38 +105,4 @@ class Answer:
     def __init__(self):
         self.text = ""
         self.name = ""
-
-
-if __name__ == "__main__":
-    qz = Quiz()
-    qz.name = "Sample Quiz"
-    qz.description = "This is a sample quiz!"
-
-    q1 = QuestionTF()
-    q1.text = "Broccoli is good for you"
-    q1.points = 5
-    q1.correct_answer = "t"
-    qz.questions.append(q1)
-
-    q2 = QuestioncMC()
-    q2.text = "What is 2+2?"
-    q2.points = 10
-    q2.correct_answer = "b"
-    ans = Answer()
-    ans.name = "a"
-    ans.text = "3"
-    q2.answers.append(ans)
-    ans = Answer()
-    ans.name = "b"
-    ans.text = "4"
-    q2.answers.append(ans)
-    ans = Answer()
-    ans.name = "c"
-    ans.text = "5"
-    q2.answers.append(ans)
-    qz.questions.append(q2)
-
-    qz.total_points = q1.points + q2.points
-    result = qz.take_quiz()
-    print(result)
 

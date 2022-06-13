@@ -1,13 +1,13 @@
-# Example file for LinkedIn Learning Course "Python: Build a Quiz App" by Joe Marini
-# pyquiz.py -- Main starting point of the program
-
+from quizmanager import QuizManager
 
 class QuizApp:
+    QUIZ_FOLDER = "Quizzes"
+
     def __init__(self):
         self.username = ""
+        self.qm = QuizManager(QuizApp.QUIZ_FOLDER)
 
     def startup(self):
-        # print the greeting at startup
         self.greeting()
 
         self.username = input("What is your name? ")
@@ -39,8 +39,6 @@ class QuizApp:
     def menu(self):
         self.menu_header()
 
-        # TODO: get the user's selection and act on it. This loop will
-        # run until the user exits the app
         selection = ""
         while(True):
             selection = input("Selection? ")
@@ -59,27 +57,28 @@ class QuizApp:
                 continue
             elif selection[0] == 'L':
                 print("\nAvailable Quizzes Are: ")
-                # Todo list the quizzed
+                self.qm.list_quizzes()
                 print("-------------------------\n")
                 continue
             elif selection[0] == 'T':
                 try:
                     quiznum = int(input("Quiz number: "))
                     print(f"You have selected quiz {quiznum}")
-                    # Todo start the quiz
+                    self.qm.take_quiz(quiznum, self.username)
+                    self.qm.print_results()
+
+                    dosave = input("Save the results? (y/n): ")
+                    dosave = dosave.capitalize()
+                    if len(dosave) > 0 and dosave[0] == 'Y':
+                        self.qm.save_results()
                 except:
                     self.menu_error()
             else:
                 self.menu_error()
 
-
-    # This is the entry point to the program
     def run(self):
-        # Execute the startup routine - ask for name, print greeting, etc
         self.startup()
-        # Start the main program menu and run until the user exits
         self.menu()
-
 
 if __name__ == "__main__":
     app = QuizApp()
